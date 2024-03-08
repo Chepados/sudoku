@@ -1,3 +1,5 @@
+#Rama alvaro
+
 import numpy as np
 from math import ceil
 import pprint
