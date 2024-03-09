@@ -1,24 +1,11 @@
-#Rama principal
+#Codigo codewars
 
 import numpy as np
 from math import ceil
-from pprint import pprint
 from copy import deepcopy
 
 Y = 0
 X = 1
-
-board = [
-            [9, 0, 0, 0, 8, 0, 0, 0, 1],
-            [0, 0, 0, 4, 0, 6, 0, 0, 0],
-            [0, 0, 5, 0, 7, 0, 3, 0, 0],
-            [0, 6, 0, 0, 0, 0, 0, 4, 0],
-            [4, 0, 1, 0, 6, 0, 5, 0, 8],
-            [0, 9, 0, 0, 0, 0, 0, 2, 0],
-            [0, 0, 7, 0, 3, 0, 2, 0, 0],
-            [0, 0, 0, 7, 0, 5, 0, 0, 0],
-            [1, 0, 0, 0, 4, 0, 0, 0, 7]
-        ]
 
 
 def posible_numbers(sudoku, pos):
@@ -35,10 +22,9 @@ def posible_numbers(sudoku, pos):
 
     return {1, 2, 3, 4, 5, 6, 7, 8, 9} - set_square - set_row - set_col
 
-def sudoku_recursivo(sudoku):
-    global terminado
+def sudoku(my_sudoku):
 
-    sudoku_copia = deepcopy(sudoku)
+    sudoku_copia = deepcopy(my_sudoku)
 
     for i in range(len(sudoku_copia)):
         for j in range(len(sudoku_copia[0])):
@@ -49,16 +35,10 @@ def sudoku_recursivo(sudoku):
                 else:
                     for numero in numeros:
                         sudoku_copia[i][j] = numero
-                        aux = sudoku_recursivo(sudoku_copia)
+                        aux = sudoku(sudoku_copia)
                         if aux == None:
                             continue
                         return aux
                     return None
 
     return sudoku_copia
-
-
-
-
-board = sudoku_recursivo(board)
-pprint(board)
