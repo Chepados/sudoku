@@ -4,6 +4,8 @@ import numpy as np
 from math import ceil
 from pprint import pprint
 from copy import deepcopy
+from colorama import Fore
+
 
 Y = 0
 X = 1
@@ -19,6 +21,15 @@ board = [
             [0, 0, 0, 7, 0, 5, 0, 0, 0],
             [1, 0, 0, 0, 4, 0, 0, 0, 7]
         ]
+
+def visualizar_solucion(sudoku, solucion):
+    for i in range(9):
+        for j in range(9):
+            if sudoku[i][j] == 0:
+                print(Fore.GREEN + str(solucion[i][j]), end="")
+            else:
+                print(Fore.RESET + str(sudoku[i][j]), end="")
+        print()
 
 
 def posible_numbers(sudoku, pos):
@@ -57,8 +68,5 @@ def sudoku_recursivo(sudoku):
 
     return sudoku_copia
 
-
-
-
-board = sudoku_recursivo(board)
-pprint(board)
+solucion = sudoku_recursivo(board)
+visualizar_solucion(board, solucion)
