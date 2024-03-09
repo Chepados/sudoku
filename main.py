@@ -1,72 +1,30 @@
-#Rama principal
+from Sudoku import Sudoku
+import os
 
-import numpy as np
-from math import ceil
-from pprint import pprint
-from copy import deepcopy
-from colorama import Fore
+lista_sudokus = os.listdir("tableros")
 
+finalizado = False
+while not finalizado:
 
-Y = 0
-X = 1
+    entrada = input("\n(A)Buscar un sudoku concreto.\n(B)Ver opciones y seleccionar.\n(C)Salir.\n\n")
 
-board = [
-            [9, 0, 0, 0, 8, 0, 0, 0, 1],
-            [0, 0, 0, 4, 0, 6, 0, 0, 0],
-            [0, 0, 5, 0, 7, 0, 3, 0, 0],
-            [0, 6, 0, 0, 0, 0, 0, 4, 0],
-            [4, 0, 1, 0, 6, 0, 5, 0, 8],
-            [0, 9, 0, 0, 0, 0, 0, 2, 0],
-            [0, 0, 7, 0, 3, 0, 2, 0, 0],
-            [0, 0, 0, 7, 0, 5, 0, 0, 0],
-            [1, 0, 0, 0, 4, 0, 0, 0, 7]
-        ]
+    if entrada.upper() == "A":
+        sudoku_name = input("Escribe el nombre del sudoku que deseas cargar: ")
+        if sudoku_name in lista_sudokus:
+            sudoku = Sudoku(sudoku_name)
+    elif entrada.upper() == "B":
+        for i, sudoku_name in enumerate(lista_sudokus):
+            print(f"({i}) {sudoku_name}")
 
-def visualizar_solucion(sudoku, solucion):
-    for i in range(9):
-        for j in range(9):
-            if sudoku[i][j] == 0:
-                print(Fore.GREEN + str(solucion[i][j]), end="")
-            else:
-                print(Fore.RESET + str(sudoku[i][j]), end="")
-        print()
+        indice_sudoku = int(input("\nEscribe tu seleccion: "))
+
+        if indice_sudoku in range(len(lista_sudokus)):
+            sudoku = Sudoku(lista_sudokus[indice_sudoku])
+    else:
+        finaliado = True
 
 
-def posible_numbers(sudoku, pos):
+    print("Visualizacion de la solucion:\n")
 
-    sudoku = np.array(sudoku)
-
-    set_row = set(sudoku[pos[Y]]) - {0}
-    set_col = set([row[pos[X]] for row in sudoku]) - {0}
-
-    square = (ceil((pos[Y] + 1) / 3), ceil((pos[X] + 1) / 3))
-    square_matrix = sudoku[(square[0] - 1) * 3:square[0]*3,(square[1] - 1) * 3:square[1]*3]
-
-    set_square = set(square_matrix.reshape((1,9))[0]) - {0}
-
-    return {1, 2, 3, 4, 5, 6, 7, 8, 9} - set_square - set_row - set_col
-
-def sudoku_recursivo(sudoku):
-    global terminado
-
-    sudoku_copia = deepcopy(sudoku)
-
-    for i in range(len(sudoku_copia)):
-        for j in range(len(sudoku_copia[0])):
-            if sudoku_copia[i][j] == 0:
-                numeros = posible_numbers(sudoku_copia, (i, j))
-                if numeros == set():
-                    return None
-                else:
-                    for numero in numeros:
-                        sudoku_copia[i][j] = numero
-                        aux = sudoku_recursivo(sudoku_copia)
-                        if aux == None:
-                            continue
-                        return aux
-                    return None
-
-    return sudoku_copia
-
-solucion = sudoku_recursivo(board)
-visualizar_solucion(board, solucion)
+    sudoku.solve()
+    sudoku.visualizar_solucion()
