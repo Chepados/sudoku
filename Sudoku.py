@@ -4,6 +4,7 @@ import numpy as np
 from math import ceil
 from copy import deepcopy
 from colorama import Fore
+from time import time
 
 Y = 0
 X = 1
@@ -84,8 +85,16 @@ class Sudoku:
 
 
 def main():
-    sudoku = Sudoku("tab_1")
+
+    time_a = time()
+
+    sudoku = Sudoku("tab_1.txt")
     sudoku.solve()
+
+    time_b = time()
+
+    print(time_b - time_a)
+
     sudoku.visualizar_solucion()
 
 
