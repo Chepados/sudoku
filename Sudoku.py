@@ -82,6 +82,8 @@ class Sudoku:
                     print(Fore.GREEN + str(solve_list[i]), end="")
                 i += 1
 
+# pene
+
 
 
 def main():
